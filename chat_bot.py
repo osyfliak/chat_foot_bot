@@ -208,16 +208,33 @@ async def cmd_reset(message: types.Message):
 # -------------------------------------------------------------
 # ЗАПУСК БОТА ТА ТАЙМЕРІВ
 # -------------------------------------------------------------
+
+
+async def handle(request):
+    return web.Response(text="Bot is running!")
+
+
+async def start_web_server():
+    app = web.Application()
+    app.router.add_get("/", handle)
+    runner = web.AppRunner(app)
+    await runner.setup()
+    port = int(os.environ.get("PORT", 8080))
+    site = web.TCPSite(runner, "0.0.0.0", port)
+    await site.start()
+
+
 async def main():
+    await start_web_server()
     # Нагадування старостам о 08:30 з понеділка по п'ятницю
     scheduler.add_job(send_reminder_to_captains, 'cron', hour=9, minute=00, day_of_week='mon-fri')
-    
+
     # Звіт для вас о 09:00 з понеділка по п'ятницю
     scheduler.add_job(send_daily_report, 'cron', hour=9, minute=10, day_of_week='mon-fri')
-    
+
     # Скидання даних о 00:00 щоночі
     scheduler.add_job(reset_daily_data, 'cron', hour=0, minute=0)
-    
+
     scheduler.start()
     await dp.start_polling(bot)
 
