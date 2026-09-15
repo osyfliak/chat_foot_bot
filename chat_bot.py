@@ -226,7 +226,7 @@ async def start_web_server():
 
 
 async def main():
-    await start_web_server()
+    asyncio.create_task(start_web_server())
     # Нагадування старостам о 08:30 з понеділка по п'ятницю
     scheduler.add_job(send_reminder_to_captains, 'cron', hour=9, minute=00, day_of_week='mon-fri')
 
