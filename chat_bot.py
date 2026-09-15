@@ -9,6 +9,7 @@ from aiogram.fsm.state import State, StatesGroup
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from aiohttp import web
 
+from aiogram.client.session.aiohttp import AiohttpSession
 # Бібліотека для виконання завдань за розкладом
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from dotenv import load_dotenv
@@ -18,7 +19,8 @@ load_dotenv()  # Зчитує файл .env
 API_TOKEN = os.getenv('BOT_TOKEN')
 ADMIN_ID = 418357645 
 
-bot = Bot(token=API_TOKEN)
+session = AiohttpSession(proxy="http://proxy.server:3128")
+bot = Bot(token=API_TOKEN, session=session)
 dp = Dispatcher()
 scheduler = AsyncIOScheduler(timezone="Europe/Kyiv")
 
