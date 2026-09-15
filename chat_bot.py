@@ -11,7 +11,9 @@ from aiohttp import web
 
 # Бібліотека для виконання завдань за розкладом
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
+from dotenv import load_dotenv
 
+load_dotenv()  # Зчитує файл .env
 # Токен вашого бота та ваш Admin ID
 API_TOKEN = os.getenv('BOT_TOKEN')
 ADMIN_ID = 418357645 
